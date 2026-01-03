@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventory Manager</title>
+    <style>
+        body { font-family: Arial; padding: 20px;}
+        table { border-collapse: collapse; width: 400px;}
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        button { cursor:pointer }
+    </style>
+</head>
+<body>
+
+<h2>Inventory Manager</h2>
+<form id = "addForm">
+    <input type = "text" id = "name" placeholder="Product Name" required>
+    <input type = "number" id = "quantity" placeholder="Quantity" required>
+    <button type = "submit"> Add Product </button>
+</form>
+
+<br>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Qty</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody id ="inventory"></tbody>
+</table>
+
+<script src = "app.js"></script>
+</body>
+</html>
