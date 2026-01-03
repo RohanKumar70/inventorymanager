@@ -27,8 +27,8 @@ public class ProductController {
     }
 
     @PostMapping("/{id}/remove")
-    public Product remove(@PathVariable Long id) {
-        return service.removeOne(id);
+    public void remove(@PathVariable Long id) {
+        service.removeOne(id);
     }
 
 }

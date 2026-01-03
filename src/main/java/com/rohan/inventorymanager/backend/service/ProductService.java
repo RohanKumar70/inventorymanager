@@ -27,7 +27,12 @@ public class ProductService {
         if (product.getQuantity() <= 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Insufficient stock.");
         }
-        product.setQuantity(product.getQuantity() - 1);
+        int newQuantity = product.getQuantity() - 1;
+        if(newQuantity == 0){
+            repo.delete(product);
+            return null;
+        }
+        product.setQuantity(newQuantity);
         return repo.save(product);
     }
 
