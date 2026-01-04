@@ -22,7 +22,7 @@ public class ProductService {
         return repo.save(product);
     }
 
-    public Product removeOne(Long id) {
+    public void removeOne(Long id) {
         Product product = repo.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product not found"));
         if (product.getQuantity() <= 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Insufficient stock.");
@@ -30,10 +30,28 @@ public class ProductService {
         int newQuantity = product.getQuantity() - 1;
         if(newQuantity == 0){
             repo.delete(product);
-            return null;
+        } else {
+            product.setQuantity(newQuantity);
+            repo.save(product);
         }
-        product.setQuantity(newQuantity);
-        return repo.save(product);
+    }
+
+    public void removeQuantity(Long id, int amount) {
+        if (amount <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Remove amount must be larger than 0.");
+        }
+
+        Product product = repo.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product not found"));
+        if(product.getQuantity() < amount) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Insufficient stock.");
+        }
+        int newQuantity = product.getQuantity() - amount;
+        if(newQuantity == 0){
+            repo.delete(product);
+        } else  {
+            product.setQuantity(newQuantity);
+            repo.save(product);
+        }
     }
 
 }

@@ -14,10 +14,21 @@ async function loadInventory(){
             <td>
                 <button onclick="removeOne(${p.id})">Remove 1</button>
             </td>
+            <td>
+                <input
+                    type = "number"
+                    min = "1" 
+                    placeholder="Qty"
+                    class ="remove-input"
+                    onkeydown="handleBulkRemove(event, ${p.id})"
+                    style="width: 70px;"
+                />
+            </td>
         `;
         tbody.appendChild(row);
     });
 }
+
 async function removeOne(id){
     const res = await fetch(`${API}/${id}/remove`, {method: "POST"});
     if(!res.ok) {
@@ -26,6 +37,30 @@ async function removeOne(id){
     }
     loadInventory();
 }
+
+async function handleBulkRemove(event, id) {
+    if (event.key !== "Enter") return;
+
+    const amount = Number(event.target.value);
+
+    if (!Number.isInteger(amount) || amount <= 0) {
+        alert("Enter a valid quantity");
+        return;
+    }
+
+    const res = await fetch(`${API}/${id}/remove/${amount}`, {
+        method: "POST"
+    });
+
+    if (!res.ok) {
+        alert(await res.text());
+        return;
+    }
+
+    event.target.value = "";
+    loadInventory();
+}
+
 document.getElementById("addForm").addEventListener("submit", async e => {
     e.preventDefault();
     const name = document.getElementById("name").value;

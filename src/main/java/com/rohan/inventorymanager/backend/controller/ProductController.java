@@ -31,4 +31,9 @@ public class ProductController {
         service.removeOne(id);
     }
 
+    @PostMapping("/{id}/remove/{amount}")
+    public void removeQuantity(@PathVariable Long id, @PathVariable int amount) {
+        service.removeQuantity(id, amount);
+    }
+
 }
