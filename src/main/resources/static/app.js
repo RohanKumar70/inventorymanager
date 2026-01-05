@@ -8,6 +8,9 @@ async function loadInventory(){
 
     products.forEach(p => {
         const row = document.createElement("tr");
+        if(p.quantity <= 3){
+            row.classList.add("low-stock");
+        }
         row.innerHTML = `
             <td>${p.name}</td>
             <td>${p.quantity}</td>

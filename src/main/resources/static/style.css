@@ -31,3 +31,7 @@ button {
     opacity: 1 !important;
     visibility: visible !important;
 }
+
+.low-stock {
+    background-color: darkred;
+}
