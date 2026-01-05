@@ -2,12 +2,15 @@ const API = "http://localhost:8080/api/products";
 async function loadInventory(){
     const res = await fetch(API);
     const products = await res.json();
+    products.sort((a, b) => a.name.localeCompare(b.name));
 
     const tbody = document.getElementById("inventory");
     tbody.innerHTML = "";
 
     products.forEach(p => {
         const row = document.createElement("tr");
+        const total = products.reduce((sum, p) => sum + p.quantity, 0);
+        document.getElementById("totalQty").textContent = total;
         if(p.quantity <= 3){
             row.classList.add("low-stock");
         }
